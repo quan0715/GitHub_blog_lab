@@ -23,7 +23,7 @@ export default async function Home() {
             <div className={"navbarSection"}>
                 <Navbar>
                     <NavbarContent>
-                        <NavbarBrand>Quan's Blog</NavbarBrand>
+                        <NavbarBrand>Quan 的 Blog</NavbarBrand>
                         {/*<NavbarItem>Home</NavbarItem>*/}
                         {/*<NavbarItem>About</NavbarItem>*/}
                         <NavbarItem>
@@ -38,9 +38,9 @@ export default async function Home() {
             </div>
             <div
                 className={"headerSection w-full h-48 bg-blue-100 rounded-xl flex flex-col justify-center items-center gap-y-5"}>
-                <p className="text-xl font-bold">Quan's Blog</p>
+                <p className="text-xl font-bold">Quan 的 Blog</p>
                 <p className={"text-sm font-light flex flex-col justify-center items-center"}>
-                    <span>Welcome to Quan's Blog 順便當作 Dcard 2024 實習 Intern Demo</span>
+                    <span>Welcome to Quan 的 Blog 順便當作 Dcard 2024 實習 Intern Demo</span>
                     <span className={"text-sm font-extralight"}> power by Github Issue</span>
                 </p>
             </div>
