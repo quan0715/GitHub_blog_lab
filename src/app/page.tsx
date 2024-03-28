@@ -1,12 +1,16 @@
 
 import React from 'react'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar"
+import Markdown from 'react-markdown'
 // import { Button, ButtonGroup } from "@nextui-org/button"
-import { authorize, getGithubUser } from "@/actions/githubOauth";
+import {getGithubUser, getIssueList} from "@/actions/githubOauth";
 import {OAuthButton, UserAvatar} from "@/ui/OauthButton";
 import { cookies } from "next/headers";
 import { User } from "@nextui-org/user";
-import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownSection,  DropdownItem} from "@nextui-org/dropdown";
+
+import {IssueCoverCard, issueProps} from "@/ui/IssueCoverCard";
+import {is} from "unist-util-is";
+import {IssueTag} from "@/ui/tagChip";
 export default async function Home() {
     const token = cookies().get('access_token')
     var userProfile = {
@@ -16,8 +20,11 @@ export default async function Home() {
     if(token !== undefined){
         // get user info
         userProfile = await getGithubUser()
-        console.log('userProfile', userProfile)
+        // console.log('userProfile', userProfile)
     }
+
+    const issue = await getIssueList()
+    // console.log('issue', issue)
     return (
         <main className={"m-12"}>
             <div className={"navbarSection"}>
@@ -44,8 +51,28 @@ export default async function Home() {
                     <span className={"text-sm font-extralight"}> power by Github Issue</span>
                 </p>
             </div>
-            <h1>{ token === undefined ? "LOGIN FIRST" : token.value}</h1>
-
+            <div className={"flex flex-col gap-y-5 py-4"}>
+                {
+                    issue.map((issue) => {
+                        const issueData = {
+                            issue: issue,
+                            id: issue.id,
+                            body: issue.body,
+                            title: issue.title,
+                            assignee: {
+                                login: issue.assignee?.login ?? 'No assignee',
+                                avatar_url: issue.assignee?.avatar_url ?? ''
+                            },
+                            labels: issue.labels.map((label) => {
+                                return label as IssueTag
+                            }) as IssueTag[]
+                        } as issueProps
+                        return (
+                            <IssueCoverCard key={issue.id} issue={issueData}/>
+                        )
+                    })
+                }
+            </div>
         </main>
     )
 }

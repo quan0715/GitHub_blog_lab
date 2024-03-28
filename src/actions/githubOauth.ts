@@ -4,19 +4,31 @@
 import {Octokit} from '@octokit/core'
 import {NextResponse} from "next/server";
 import {cookies} from "next/headers";
-async function authorize(){
-    const url = 'https://github.com/login/oauth/authorize'
+import { App } from "octokit";
+import { createAppAuth } from "@octokit/auth-app";
 
-    const params = {
-        client_id: process.env.GITHUB_CLIENT_ID,
-        redirect_uri: process.env.GITHUB_REDIRECT_URI,
-        scope: 'read:user user:email read:repo'
-    }
 
-    const authUrI = `${url}?client_id=${params.client_id}&redirect_uri=${params.redirect_uri}&scope=${params.scope}`
-    // redirect to github oauth
-    NextResponse.redirect(authUrI)
+
+export async function getIssueList() {
+    console.log('github app auth')
+    const app= new App({
+        appId: process.env.GITHUB_APP_ID as string,
+        privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+    })
+    const {data} = await app.octokit.request('GET /users/quan0715/installation',)
+    const INSTALLATION_ID = data['id']
+    const octokit = await app.getInstallationOctokit(INSTALLATION_ID);
+    const issue = await octokit.request('GET /repos/{owner}/{repo}/issues',{
+        owner: 'quan0715',
+        repo: 'GithubBlogPortal',
+        headers: {
+            'X-Github-Api-Version': '2022-11-28'
+        }
+    })
+    // console.log('get issues', issue)
+    return issue.data
 }
+
 
 
 
@@ -28,7 +40,7 @@ async function getUserInfo(token: string) {
         }
     })
     const data = response.data
-    console.log(data)
+    // console.log(data)
 
     return {
         userName: data['login'],
@@ -38,7 +50,7 @@ async function getUserInfo(token: string) {
 async function githubAction(func: Function) {
     // get token
     const token = cookies().get('access_token')
-    if (token === undefined) {
+    if (token === undefined || token.value === '') {
         console.log('token is undefined')
         return undefined
     }
@@ -56,12 +68,27 @@ async function getGithubUser(): Promise<GithubUser> {
     return res
 }
 
-async function signOut() {
-    console.log('clear token')
-    // cookies().set('access_token', '', {
-    //     maxAge: 0
-    // })
-    // return NextResponse.redirect(new URL("/",));
+
+async function githubIssue(token: string){
+    const octokit = new Octokit({auth: token})
+    const response = await octokit.request('GET /repos/{owner}/{repo}/issues',{
+        owner: 'quan0715',
+        repo: 'GithubBlogPortal',
+        headers: {
+            'X-Github-Api-Version': '2022-11-28'
+        }
+    })
+    const data = response.data
+    console.log(data)
+    return data
+}
+
+async function getGithubIssues() {
+    const res =  await githubAction(githubIssue)
+    if(res === undefined){
+        return []
+    }
+    return res
 }
 
 type GithubUser = {
@@ -69,5 +96,5 @@ type GithubUser = {
     avatar: string
 }
 export {
-    authorize, getGithubUser, signOut
+    getGithubUser, githubAction, getGithubIssues,
 }

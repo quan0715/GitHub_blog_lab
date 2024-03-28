@@ -2,24 +2,34 @@
 'use client'
 import { Button } from '@nextui-org/button'
 
-import {authorize, signOut} from '@/actions/githubOauth'
+// import {githubAppAuth} from '@/actions/githubOauth'
 import Link from "next/link";
-import {Dropdown, DropdownItem, DropdownMenu, DropdownTrigger} from "@nextui-org/dropdown";
-import {User} from "@nextui-org/user";
+import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
+import { User } from "@nextui-org/user";
 import React from "react";
 // import {cookies} from "next/headers";
-import {NextRequest, NextResponse} from "next/server";
+// import { NextRequest, NextResponse} from "next/server";
 
 export function OAuthButton() {
     // redirect to github oauth page
+    const client_id = process.env.GITHUB_CLIENT_ID as string
+    const secret = process.env.GITHUB_CLIENT_SECRET
+    const redirect_uri = process.env.GITHUB_REDIRECT_URI
+    // console.log('client_id', client_id)
+    // console.log('secret', secret)
+    const url = 'https://github.com/login/oauth/authorize?client_id=Iv1.462e3b2f1c7c326f'
+
     return (
-        <Button color="primary">
-            <Link href={"https://github.com/login/oauth/authorize?client_id=ecef2862339aeb58fb5e&redirect_uri=http://localhost:3000/api/oauth/callback&scope=read:user"}>
-                Github Oauth
-            </Link>
+        <Button color="primary"
+                // onPress={async () => await githubAppAuth()}>
+        >
+            <Link href={url}>Github Oauth</Link>
+            {/*Github Oauth*/}
         </Button>
     )
 }
+
+// export function
 
 export function UserAvatar({avatar, userName} : {avatar: string, userName: string}) {
     return (
