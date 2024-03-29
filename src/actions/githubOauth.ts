@@ -9,25 +9,6 @@ import { createAppAuth } from "@octokit/auth-app";
 
 
 
-export async function getIssueList() {
-    console.log('github app auth')
-    const app= new App({
-        appId: process.env.GITHUB_APP_ID as string,
-        privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
-    })
-    const {data} = await app.octokit.request('GET /users/quan0715/installation',)
-    const INSTALLATION_ID = data['id']
-    const octokit = await app.getInstallationOctokit(INSTALLATION_ID);
-    const issue = await octokit.request('GET /repos/{owner}/{repo}/issues',{
-        owner: 'quan0715',
-        repo: 'GithubBlogPortal',
-        headers: {
-            'X-Github-Api-Version': '2022-11-28'
-        }
-    })
-    // console.log('get issues', issue)
-    return issue.data
-}
 
 
 
