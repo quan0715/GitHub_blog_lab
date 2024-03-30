@@ -45,13 +45,11 @@ export default async function Home() {
                     <span className={"text-sm font-extralight"}> power by Github Issue</span>
                 </p>
             </div>
-            <div className={"flex flex-col gap-y-5 py-4"}>
+            <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4"}>
                 {
                     issueList.map((issue) => {
                         return (
-                           <Link key={issue.id} href={`/${issue.number}`}>
-                               <IssueCoverCard key={issue.id} issue={issue}/>
-                           </Link>
+                            <IssueCoverCard key={issue.id} issue={issue}/>
                         )
                     })
                 }

@@ -7,40 +7,31 @@ import {Simulate} from "react-dom/test-utils";
 import click = Simulate.click;
 import {issueDataModelProps, IssueModel} from "@/models/IssueModel";
 import {Image} from "@nextui-org/image";
-// import Image from 'next/image'
+import NextImage from 'next/image'
 export function IssueCoverCard({issue}: {issue: issueDataModelProps}) {
 
     const issueModel = new IssueModel(issue)
 
     return (
-        <Card className={"overflow-scroll"}>
-            <CardBody className={"flex-row justify-start items-center"}>
+        <Card className={"overflow-hidden"}>
+            <CardBody>
                 {
                     issueModel.cover_image !== null ?
-                        <div
-                            className={"sm:hidden"}
-                            style={
-                                {
-                                    position: 'relative',
-                                    maxWidth: '200px',
-                                }
-                            }>
+                        <div className={"lg:block h-[200px] max-h-[200px] p-4"}>
                             <Image
-                                className={"rounded-xl "}
+                                isBlurred
+                                isZoomed
+                                as={NextImage}
+                                className={"grow rounded-xl w-full h-[200px] object-cover"}
                                 src={issueModel.cover_image}
                                 alt={"cover image"}
-                                // fill={true}
-                                style={
-                                    {
-                                        objectFit: 'cover'
-                                    }
-                                }
-                                sizes={"200px 200px"}
+                                width={800}
+                                height={200}
                             />
                         </div>
                         : null
                 }
-                <div className={"flex flex-col p-4 justify-between items-start"}>
+                <div className={"flex flex-col w-full flex-grow p-4 justify-start items-start"}>
                     <div>
                         {
                             issueModel.data.assignee !== null ?
@@ -58,8 +49,8 @@ export function IssueCoverCard({issue}: {issue: issueDataModelProps}) {
                         <div className={"text-xl font-semibold"}>{issueModel.title}</div>
                         <div className={"text-xl font-light"}>{issueModel.subtitle}</div>
                     </div>
-                    <div className={"h-8"}></div>
-                    <div className={"flex flex-row"}>
+                    {/*<div className={"h-8"}></div>*/}
+                    <div className={"flex flex-grow flex-row py-4 justify-start"}>
                         {
                             issueModel.data.labels.map((label) => {
                                 return <TagChip key={label.id} labelData={label}/>

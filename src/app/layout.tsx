@@ -8,7 +8,6 @@ const notoSansTC = Noto_Sans_TC({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
     title: "Github Blog System Lab",
-    // description: "The Next gen IOT Dashboard power by IBM",
 };
 
 export default function RootLayout({
