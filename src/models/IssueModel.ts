@@ -90,7 +90,7 @@ export class IssueModel{
     constructor(issueData: issueDataModelProps){
         this.metadata = IssueModel.parseMetaDate(issueData.body)
         this.data = issueData
-        console.log('metadata', this.metadata)
+        // console.log('metadata', this.metadata)
     }
 
     get title(){

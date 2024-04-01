@@ -9,7 +9,8 @@ import { cookies } from "next/headers";
 import {IssueCoverCard} from "@/ui/IssueCoverCard";
 import Link from "next/link";
 import {IssueTag} from "@/ui/tagChip";
-import {issueDataModelProps, IssueModel} from "@/models/IssueModel";
+// import {issueDataModelProps, IssueModel} from "@/models/IssueModel";
+import {is} from "unist-util-is";
 export default async function Home() {
 
     const token = cookies().get('access_token')
@@ -45,11 +46,13 @@ export default async function Home() {
                     <span className={"text-sm font-extralight"}> power by Github Issue</span>
                 </p>
             </div>
-            <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4"}>
+            <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-4"}>
                 {
                     issueList.map((issue) => {
                         return (
-                            <IssueCoverCard key={issue.id} issue={issue}/>
+                            // <Link href={`/${issue.number}`}>
+                                <IssueCoverCard key={issue.id} issue={issue}/>
+                            // </Link>
                         )
                     })
                 }
