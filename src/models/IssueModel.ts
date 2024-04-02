@@ -8,7 +8,6 @@ export type issueDataModelProps = {
     node_id: string,
     body: string,
     title: string,
-    // subtitle: string,
     labels: IssueLabelModelProps[],
     assignee: GithubUserModelProps | null,
     assignees: GithubUserModelProps[],
@@ -70,7 +69,7 @@ export class IssueModel{
                     ...line
                 }
             })
-        console.log('metadata', metaData)
+        // console.log('metadata', metaData)
 
         return {
             title: metaData['title'] || null,

@@ -3,15 +3,9 @@ import {Card, CardHeader, CardBody, CardFooter} from "@nextui-org/card";
 import {IssueTag, TagChip} from "@/ui/tagChip";
 import React from "react";
 import {User} from "@nextui-org/user";
-import {Simulate} from "react-dom/test-utils";
-import click = Simulate.click;
 import {GithubUserModelProps, issueDataModelProps, IssueLabelModelProps, IssueModel} from "@/models/IssueModel";
-import {Image} from "@nextui-org/image";
 import NextImage from 'next/image'
 import Link from "next/link";
-import {Button} from "@nextui-org/button";
-
-
 
 function CoverImage({imageURL = null}: {imageURL: string | null}) {
         // return next image component if imageURL is not undefined
@@ -82,7 +76,7 @@ export function BlogPostHeader({issueData}: { issueData: issueDataModelProps }) 
     return (
         <div className={"w-full flex flex-col items-center"}>
             <CoverImage imageURL={issueModel.cover_image}/>
-            <div className={"w-full flex flex-col max-w-[900px] min-w-[430px] py-5"}>
+            <div className={"w-full flex flex-col py-5"}>
                 <AuthorAvatar author={null}/>
                 <div className={"text-3xl font-semibold"}>{issueModel.title}</div>
                 <div className={"text-2xl font-light"}>{issueModel.subtitle}</div>

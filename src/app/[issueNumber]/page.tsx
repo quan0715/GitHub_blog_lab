@@ -1,22 +1,18 @@
 import {getIssueById, renderMarkdown} from "@/actions/githubIssue";
-import Markdown from "react-markdown";
 import {BlogPostHeader, IssueCoverCard} from "@/ui/IssueCoverCard";
-import {is} from "unist-util-is";
 import {issueDataModelProps, IssueModel} from "@/models/IssueModel";
 import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import NextImage from 'next/image'
-import {User} from "@nextui-org/user";
 import React from "react";
-import {TagChip} from "@/ui/tagChip";
-import {Divider} from "@nextui-org/divider";
-
-
+import {Divider} from "@nextui-org/divider"
+import rehypeHighlight from "rehype-highlight";
+import hljs from 'highlight.js';
+import Image from "next/image";
+import Link from "next/link";
 function PostBody({children}: {children: React.ReactNode[]}){
-
     return (
         <div className={"w-screen h-full flex flex-col items-center"}>
-            <div className={"flex flex-col justify-start items-center"}>
+            <div className={"w-[95%] max-w-5xl p-4 flex flex-col justify-start items-center"}>
                 {...children}
             </div>
         </div>
@@ -27,66 +23,30 @@ function PostBody({children}: {children: React.ReactNode[]}){
 export default async function PostPage({params}: { params: { issueNumber: string } }) {
     const issue = await getIssueById({issueId: parseInt(params.issueNumber)})
     const issueModel = new IssueModel(issue)
-    const mdxSource = await serialize(issueModel.metadata.body)
-    const content = await renderMarkdown({markdown: issueModel.metadata.body})
+    // const mdxSource = await serialize(issueModel.metadata.body,)
+    // const content = await renderMarkdown({markdown: issueModel.metadata.body})
 
     return (
         <PostBody>
             <BlogPostHeader issueData={issue}></BlogPostHeader>
-            <Divider></Divider>
-            <article className="prose prose-slate max-w-[900px]">
-                <MDXRemote source={issueModel.metadata.body}/>
+            {/*<Divider></Divider>*/}
+            <article className="max-w-none w-full prose prose-base prose-slate dark:prose-invert">
+                <MDXRemote
+                    source={issueModel.metadata.body} options={{
+                    mdxOptions: {
+                        remarkPlugins: [],
+                        // @ts-ignore
+                        rehypePlugins: [rehypeHighlight],
+                    }
+                }} components={{
+                    // h1: ({children}) => <h1 className={"font-semibold text-primary"}>{children}</h1>,
+                    // h2: ({children}) => <h2 className={"font-semibold text-primary"}>{children}</h2>,
+                    // h3: ({children}) => <h3 className={"font-semibold text-primary"}>{children}</h3>,
+                    // p: ({children}) => <p className={"text-lg"}>{children}</p>,
+                    // a: ({children, href}) => <Link href={href??""} className={"text-blue-500"}>{children}</Link>,
+                    // img: ({src, alt}) => <Image src={src} alt={alt} style={{maxWidth: "100%"}}/>
+                }}/>
             </article>
         </PostBody>
     )
 }
-
-// function BlogPostHeader({issueData}: { issueData: issueDataModelProps }) {
-//     const issueModel = new IssueModel(issueData)
-//     return (
-//         <div className={"p-4 w-[90%] flex flex-col items-center"}>
-//             {
-//                 issueModel.cover_image !== null ?
-//                     <div style={{
-//                         position: 'relative',
-//                         width: '100%',
-//                         aspectRatio: '1.8',
-//                         maxWidth: "900px",
-//                         minWidth: "430px"
-//                     }}>
-//                         <NextImage
-//                             layout={"fill"}
-//                             style={{objectFit: 'cover', objectPosition: 'center', borderRadius: '16px'}}
-//                             src={issueModel.cover_image}
-//                             alt={"cover image"}
-//                         />
-//                     </div>
-//                     : null
-//             }
-//             <div className={"w-full flex flex-col max-w-[900px] min-w-[430px] py-5"}>
-//                 <div className={"flex flex-row gap-y-5"}>
-//                     {
-//                         issueModel.data.assignee !== null ?
-//                             <User
-//                                 avatarProps={{
-//                                     size: 'sm',
-//                                     src: issueModel.data.assignee.avatar_url,
-//                                     alt: issueModel.data.assignee.login
-//                                 }}
-//                                 name={issueModel.data.assignee.login}/>
-//                             : null
-//                     }
-//                 </div>
-//                 <div className={"text-3xl font-semibold"}>{issueModel.title}</div>
-//                 <div className={"text-2xl font-light"}>{issueModel.subtitle}</div>
-//                 <div className={"flex flex-grow flex-wrap gap-1 flex-row py-4 justify-start"}>
-//                     {
-//                         issueModel.data.labels.map((label) => {
-//                             return <TagChip key={label.id} labelData={label}/>
-//                         })
-//                     }
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
