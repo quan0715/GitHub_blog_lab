@@ -17,7 +17,7 @@ export function TagChip({labelData}: {labelData: IssueTag}){
                 key={labelData.id}
                 className={'inline text-sm font-mono rounded-md px-3 py-1 border-2 break-keep overflow-clip'}
                 style={{
-                    color: `#${labelData.color}`,
+                    // color: `#${labelData.color}`,
                     backgroundColor: `#${labelData.color}1A`,
                     borderColor: `#${labelData.color}`
                 }}

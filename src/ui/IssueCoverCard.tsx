@@ -5,64 +5,89 @@ import React from "react";
 import {User} from "@nextui-org/user";
 import {Simulate} from "react-dom/test-utils";
 import click = Simulate.click;
-import {issueDataModelProps, IssueLabelModelProps, IssueModel} from "@/models/IssueModel";
+import {GithubUserModelProps, issueDataModelProps, IssueLabelModelProps, IssueModel} from "@/models/IssueModel";
 import {Image} from "@nextui-org/image";
 import NextImage from 'next/image'
 import Link from "next/link";
 import {Button} from "@nextui-org/button";
 
-function CoverImage({imageURL}: {imageURL: string}) {
+
+
+function CoverImage({imageURL = null}: {imageURL: string | null}) {
+        // return next image component if imageURL is not undefined
+        // else return color block
+        return (<div style={{ position: 'relative', width: '100%', aspectRatio: "1.69"}}>
+            {
+                <NextImage
+                    fill
+                    style={{objectFit: 'cover', objectPosition: 'center', borderRadius: '8px'}}
+                    src={imageURL !== null ? imageURL : '/default_cover.JPG'}
+                    alt={"cover image"}
+                />
+            }
+        </div>
+    )
+}
+
+function AuthorAvatar({author = null}: {author: GithubUserModelProps | null}) {
     return (
-        <div style={{ position: 'relative', width: '100%', aspectRatio: "1.69"}}>
-            <NextImage
-                fill
-                style={{objectFit: 'cover', objectPosition: 'center', borderRadius: '8px'}}
-                src={imageURL}
-                alt={"cover image"}
-            />
+       author !== null ?
+              <User
+                avatarProps={{
+                     size: 'sm',
+                     src: author.avatar_url,
+                     alt: author.login
+                }}
+                name={author.login}/>
+              : null
+    )
+}
+
+function LabelsWrapper({labels}: {labels: IssueLabelModelProps[]}){
+    return (
+        <div className={"flex flex-grow flex-wrap gap-1 flex-row py-4 justify-start"}>
+            {
+                labels.map((label) => {
+                    return <TagChip key={label.id} labelData={label}/>
+                })
+            }
         </div>
     )
 }
 
 export function IssueCoverCard({issue}: {issue: issueDataModelProps}) {
-
     const issueModel = new IssueModel(issue)
-
     return (
         <Card className={"overflow-hidden max-w-2xl max-h-unit-3xl"}>
             <Link href={`/${issueModel.data.number}`}>
             <CardBody>
-                { issueModel.cover_image !== null ? <CoverImage imageURL={issueModel.cover_image}/> : null }
+                <CoverImage imageURL={issueModel.cover_image}/>
                 <div className={"flex flex-col w-full flex-grow p-4 justify-start items-start"}>
                     <div>
-                        {
-                            issueModel.data.assignee !== null ?
-                                <User
-                                    avatarProps={{
-                                        size: 'sm',
-                                        src: issueModel.data.assignee.avatar_url,
-                                        alt: issueModel.data.assignee.login
-                                    }}
-                                    name={issueModel.data.assignee.login}/>
-                                : null
-                        }
-                        <div className={"text-xl font-semibold"}>{issueModel.title}</div>
+                        <AuthorAvatar author={null}/>
+                        <div className={"text-2xl font-semibold"}>{issueModel.title}</div>
                         <div className={"text-xl font-light"}>{issueModel.subtitle}</div>
                     </div>
-                    <div className={"flex flex-grow flex-wrap gap-1 flex-row py-4 justify-start"}>
-                        {
-                            issueModel.data.labels.map((label) => {
-                                return <TagChip key={label.id} labelData={label}/>
-                            })
-                        }
-                    </div>
+                    <LabelsWrapper labels={issueModel.data.labels}/>
                 </div>
-
-
             </CardBody>
             </Link>
-
         </Card>
 
+    )
+}
+
+export function BlogPostHeader({issueData}: { issueData: issueDataModelProps }) {
+    const issueModel = new IssueModel(issueData)
+    return (
+        <div className={"w-full flex flex-col items-center"}>
+            <CoverImage imageURL={issueModel.cover_image}/>
+            <div className={"w-full flex flex-col max-w-[900px] min-w-[430px] py-5"}>
+                <AuthorAvatar author={null}/>
+                <div className={"text-3xl font-semibold"}>{issueModel.title}</div>
+                <div className={"text-2xl font-light"}>{issueModel.subtitle}</div>
+                <LabelsWrapper labels={issueModel.data.labels}/>
+            </div>
+        </div>
     )
 }
