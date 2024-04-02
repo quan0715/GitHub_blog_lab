@@ -10,13 +10,15 @@ interface ProviderProps {
 export function Providers({children }:ProviderProps) {
     // const router = useRouter();
     return (
-        // <React.StrictMode>
-            <NextUIProvider>
-                <NextThemeProvider attribute="class" defaultTheme="dark">
+        <React.StrictMode>
+        {/*//     <NextUIProvider>*/}
+                <NextThemeProvider
+                    attribute="class"
+                    defaultTheme="system">
                     {children}
                 </NextThemeProvider>
-            </NextUIProvider>
-        // </React.StrictMode>
+            {/*</NextUIProvider>*/}
+        </React.StrictMode>
 
     )
 }

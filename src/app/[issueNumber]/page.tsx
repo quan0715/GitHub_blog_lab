@@ -6,7 +6,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import React from "react";
 import {Divider} from "@nextui-org/divider"
 import rehypeHighlight from "rehype-highlight";
-import hljs from 'highlight.js';
+// import hljs from 'highlight.js';
 import Image from "next/image";
 import Link from "next/link";
 function PostBody({children}: {children: React.ReactNode[]}){

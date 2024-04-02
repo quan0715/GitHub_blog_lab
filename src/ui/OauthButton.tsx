@@ -1,14 +1,11 @@
 
 'use client'
-import { Button } from '@nextui-org/button'
-
-// import {githubAppAuth} from '@/actions/githubOauth'
+// import { Button } from '@nextui-org/button'
+import { Button } from "@/components/ui/button"
 import Link from "next/link";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
 import { User } from "@nextui-org/user";
 import React from "react";
-// import {cookies} from "next/headers";
-// import { NextRequest, NextResponse} from "next/server";
 
 export function OAuthButton() {
     // redirect to github oauth page

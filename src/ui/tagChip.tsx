@@ -10,7 +10,7 @@ export type IssueTag = {
 }
 
 export function TagChip({labelData}: {labelData: IssueTag}){
-    console.log(labelData)
+    // console.log(labelData)
     return (
         <div className={"px-1"}>
             <div

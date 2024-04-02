@@ -1,21 +1,19 @@
 
 import React from 'react'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar"
 import { getGithubUser } from "@/actions/githubOauth";
 import { getIssueList } from "@/actions/githubIssue";
-import {OAuthButton, UserAvatar} from "@/ui/OauthButton";
+import { OAuthButton, UserAvatar} from "@/ui/OauthButton";
 import { cookies } from "next/headers";
 
 import {IssueCoverCard} from "@/ui/IssueCoverCard";
-import Link from "next/link";
-import {IssueTag} from "@/ui/tagChip";
-// import {issueDataModelProps, IssueModel} from "@/models/IssueModel";
-import {is} from "unist-util-is";
+import {ThemeSwitcherButton} from "@/components/blocks/ToggleThemeButton";
+
 export default async function Home() {
 
     const token = cookies().get('access_token')
 
-    var userProfile = {userName: '', avatar: ''}
+    let userProfile = {userName: '', avatar: ''};
+
     if(token !== undefined){
         userProfile = await getGithubUser()
     }
@@ -24,22 +22,21 @@ export default async function Home() {
 
     return (
         <main className={"m-12"}>
-            <div className={"navbarSection"}>
-                <Navbar>
-                    <NavbarContent>
-                        <NavbarBrand>Quan 的 Blog</NavbarBrand>
-                        <NavbarItem>
-                            {
-                                userProfile.userName.length === 0
-                                    ? <OAuthButton/>
-                                    : <UserAvatar avatar={userProfile.avatar} userName={userProfile.userName}/>
-                            }
-                        </NavbarItem>
-                    </NavbarContent>
-                </Navbar>
+            <div className={"flex flex-row justify-between px-12 py-4"}>
+                <section>
+                    <div>Quan 的 Blog</div>
+                </section>
+                <div className={"flex flex-row justify-end space-x-2"}>
+                    <ThemeSwitcherButton/>
+                    {
+                        userProfile.userName.length === 0
+                            ? <OAuthButton/>
+                            : <UserAvatar avatar={userProfile.avatar} userName={userProfile.userName}/>
+                    }
+                </div>
             </div>
             <div
-                className={"headerSection w-full h-48 bg-blue-100 rounded-xl flex flex-col justify-center items-center gap-y-5"}>
+                className={"w-full h-48 bg-blue-100 dark:bg-blue-600 rounded-xl flex flex-col justify-center items-center gap-y-5"}>
                 <p className="text-xl font-bold">Quan 的 Blog</p>
                 <p className={"text-sm font-light flex flex-col justify-center items-center"}>
                     <span>Welcome to Quan 的 Blog 順便當作 Dcard 2024 實習 Intern Demo</span>
