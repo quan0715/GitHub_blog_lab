@@ -17,11 +17,8 @@ export function OAuthButton() {
     const url = 'https://github.com/login/oauth/authorize?client_id=Iv1.462e3b2f1c7c326f'
 
     return (
-        <Button color="primary"
-                // onPress={async () => await githubAppAuth()}>
-        >
-            <Link href={url}>Github Oauth</Link>
-            {/*Github Oauth*/}
+        <Button color="primary">
+            <Link href={url}>Github 登入</Link>
         </Button>
     )
 }

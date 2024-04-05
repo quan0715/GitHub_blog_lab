@@ -1,4 +1,4 @@
-import {IssueTag} from "@/ui/tagChip";
+import {IssueTag} from "@/components/blocks/tagChip";
 import {metadata} from "@/app/layout";
 
 
@@ -35,7 +35,15 @@ export type IssueLabelModelProps = {
 
 export class IssueModel{
     data: issueDataModelProps
-    static parseMetaDate(body: string){
+    static parseMetaDate(body: string | null){
+        if (body === null || !body){
+            return {
+                title: null,
+                subtitle: null,
+                cover_image: null,
+                body: ''
+            }
+        }
         const data = body.split('-----', 2)
 
         if (data.length < 2){

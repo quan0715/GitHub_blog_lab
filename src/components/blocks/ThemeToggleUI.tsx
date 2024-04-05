@@ -1,8 +1,9 @@
 'use client'
-import {useState} from "react";
+import React, {useState} from "react";
 import {Sun, Moon} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import { useTheme } from "next-themes"
+import Image from "next/image";
 
 function LightThemeIcon(){
     return (
@@ -31,5 +32,14 @@ export function ThemeSwitcherButton() {
                 theme === "dark"  ? <DarkThemeIcon/> : <LightThemeIcon/>
             }
         </Button>
+    )
+}
+
+export function Logo() {
+    const lightLogoFileName = "/light_logo.png"
+    const darkLogoFileName = "/dark_logo.png"
+    const logoPath = useTheme().theme === "dark" ? darkLogoFileName : lightLogoFileName
+    return (
+        <Image src={logoPath} alt={"logo"} width={100} height={40} />
     )
 }

@@ -1,17 +1,28 @@
 'use server'
 
-// create github oauth action
 import {Octokit} from '@octokit/core'
-import {NextResponse} from "next/server";
 import {cookies} from "next/headers";
-import { App } from "octokit";
-import { createAppAuth } from "@octokit/auth-app";
+import {App} from "octokit";
+import {permanentRedirect} from "next/navigation";
 
 
+const authApp= new App({
+    appId: process.env.GITHUB_APP_ID as string,
+    privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+})
 
 
+const USERNAME = process.env.AUTHOR_GITHUB_USERNAME as string
+const REPO = process.env.BLOG_REPO_NAME as string
+const HEADERS = {
+    'X-Github-Api-Version': '2022-11-28'
+}
 
-
+export async function installationAuth(){
+    const {data} = await authApp.octokit.request(`GET /users/${USERNAME}/installation`,)
+    const INSTALLATION_ID = data['id']
+    return await authApp.getInstallationOctokit(INSTALLATION_ID);
+}
 
 async function getUserInfo(token: string) {
     const octokit = new Octokit({auth: token})
@@ -22,12 +33,12 @@ async function getUserInfo(token: string) {
     })
     const data = response.data
     // console.log(data)
-
     return {
         userName: data['login'],
         avatar: data['avatar_url'],
     }
 }
+
 async function githubAction(func: Function) {
     // get token
     const token = cookies().get('access_token')
@@ -70,6 +81,17 @@ async function getGithubIssues() {
         return []
     }
     return res
+}
+
+export async function signOut(){
+    // clear login token
+    console.log('clear token')
+    cookies().set('access_token', '', {
+        maxAge: 0
+    })
+
+    permanentRedirect('/')
+
 }
 
 type GithubUser = {
