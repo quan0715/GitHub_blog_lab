@@ -1,24 +1,17 @@
 
-import {Logo, ThemeSwitcherButton} from "@/components/blocks/ThemeToggleUI";
-import {OAuthButton, UserAvatar} from "@/components/blocks/OauthButton";
+import {Logo, ThemeSwitcherButton} from "@/components/blocks/client/ThemeToggleUI";
+import {OAuthButton} from "@/components/blocks/client/OauthButton";
 import React from "react";
 import {cookies} from "next/headers";
 import {getGithubUser} from "@/actions/githubOauth";
 import Link from "next/link";
 import {GithubAvatar} from "@/components/blocks/GithubAvatar";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 import {LogOut} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {redirect} from "next/navigation";
-import {AvatarDropdown} from "@/components/blocks/AvatarDropdown";
+import {AvatarDropdown} from "@/components/blocks/client/AvatarDropdown";
+import {GithubUserModelProps} from "@/models/IssueModel";
 
 function LogoButton() {
     // redirect to home page
@@ -34,26 +27,25 @@ function LogoButton() {
 
 export async function NavBar() {
 
-    const token = cookies().get('access_token')
-
-    let userProfile = {userName: '', avatar: ''};
-
-    if(token !== undefined){
-        userProfile = await getGithubUser()
+    let user: GithubUserModelProps = {
+        login: "",
+        avatar_url: "",
     }
-    const avatar = <GithubAvatar author={{
-        login: userProfile.userName,
-        avatar_url: userProfile.avatar
-    }}/>
+    try{
+        user = await getGithubUser()
+    } catch (e) {
+        console.error(e)
+    }
+
     return (
         <div className={"w-full flex flex-row justify-between py-4"}>
             <LogoButton/>
             <div className={"flex flex-row justify-end space-x-2"}>
                 <ThemeSwitcherButton/>
                 {
-                    userProfile.userName.length === 0
+                    user.login.length === 0
                         ? <OAuthButton/>
-                        : <AvatarDropdown avatar={avatar}/>
+                        : <AvatarDropdown avatar={user}/>
                 }
             </div>
         </div>

@@ -1,5 +1,5 @@
 'use client'
-import {IssueTag, TagChip} from "@/components/blocks/tagChip";
+import {IssueTag, TagChip} from "@/components/blocks/TagChip";
 import React from "react";
 import {GithubUserModelProps, issueDataModelProps, IssueLabelModelProps, IssueModel} from "@/models/IssueModel";
 import NextImage from 'next/image'

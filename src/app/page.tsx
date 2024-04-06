@@ -5,7 +5,7 @@ import { getIssueList } from "@/actions/githubIssue";
 import { cookies } from "next/headers";
 
 import {IssueCoverCard} from "@/components/blocks/IssueCoverCard";
-import {NavBar} from "@/components/blocks/NavBar";
+import {NavBar} from "@/components/blocks/client/NavBar";
 
 export default async function Home() {
     const issueList = await getIssueList()

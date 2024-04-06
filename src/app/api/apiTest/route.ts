@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
-import { getGithubIssues } from "@/actions/githubOauth"
-// import {getAssets} from "@/actions/githubIssue";
-
+import {postNewComment} from "@/actions/githubComments";
 
 export async function GET(req: NextRequest, res: NextResponse) {
+
+    const result = await postNewComment({
+        issueId: 3,
+        body: '### Cool'
+    })
 
     try {
         return NextResponse.json(
             {
                 "status": 200,
-                "res" : res
+                "res" : result
             }
         )
     } catch (error) {

@@ -13,7 +13,6 @@ type CommentDisplayCardProps = {
 }
 
 export function CommentDisplayCard({commentData,}: CommentDisplayCardProps) {
-    console.log('commentData', commentData)
     return (
         <Card className={"w-full"}>
             <CardHeader>

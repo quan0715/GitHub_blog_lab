@@ -4,6 +4,7 @@ import {Octokit} from '@octokit/core'
 import {cookies} from "next/headers";
 import {App} from "octokit";
 import {permanentRedirect} from "next/navigation";
+import {GithubUserModelProps} from "@/models/IssueModel";
 
 
 const authApp= new App({
@@ -11,9 +12,8 @@ const authApp= new App({
     privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
 })
 
-
-const USERNAME = process.env.AUTHOR_GITHUB_USERNAME as string
-const REPO = process.env.BLOG_REPO_NAME as string
+const USERNAME = process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string
+const REPO = process.env.NEXT_PUBLIC_BLOG_REPO_NAME as string
 const HEADERS = {
     'X-Github-Api-Version': '2022-11-28'
 }
@@ -24,22 +24,15 @@ export async function installationAuth(){
     return await authApp.getInstallationOctokit(INSTALLATION_ID);
 }
 
-async function getUserInfo(token: string) {
-    const octokit = new Octokit({auth: token})
-    const response = await octokit.request('GET /user',{
-        headers: {
-            'X-Github-Api-Version': '2022-11-28'
-        }
-    })
-    const data = response.data
-    // console.log(data)
-    return {
-        userName: data['login'],
-        avatar: data['avatar_url'],
+export async function getTokenFromCookie(){
+    const token =  cookies().get('access_token')
+    if(token === undefined || token.value === ''){
+        return undefined
     }
+    return token.value
 }
 
-async function githubAction(func: Function) {
+export async function githubActionWrapper(func: Function) {
     // get token
     const token = cookies().get('access_token')
     if (token === undefined || token.value === '') {
@@ -49,55 +42,32 @@ async function githubAction(func: Function) {
     return await func(token.value)
 }
 
-async function getGithubUser(): Promise<GithubUser> {
-    const res = await githubAction(getUserInfo)
-    if(res === undefined){
-        return {
-            userName: '',
-            avatar: ''
-        }
-    }
-    return res
-}
-
-
-async function githubIssue(token: string){
+async function getUserInfo(token: string) {
     const octokit = new Octokit({auth: token})
-    const response = await octokit.request('GET /repos/{owner}/{repo}/issues',{
-        owner: 'quan0715',
-        repo: 'GithubBlogPortal',
+    const response = await octokit.request('GET /user',{
         headers: {
             'X-Github-Api-Version': '2022-11-28'
         }
     })
     const data = response.data
-    console.log(data)
-    return data
+    return {
+        'login': data['login'],
+        'avatar_url': data['avatar_url'],
+    } as GithubUserModelProps
 }
 
-async function getGithubIssues() {
-    const res =  await githubAction(githubIssue)
+export async function getGithubUser(): Promise<GithubUserModelProps> {
+    const res = await githubActionWrapper(getUserInfo)
     if(res === undefined){
-        return []
+       throw new Error('token is undefined')
     }
-    return res
+    return res as GithubUserModelProps
 }
 
-export async function signOut(){
+export async function githubSignOut(){
     // clear login token
     console.log('clear token')
     cookies().set('access_token', '', {
         maxAge: 0
     })
-
-    permanentRedirect('/')
-
-}
-
-type GithubUser = {
-    userName: string,
-    avatar: string
-}
-export {
-    getGithubUser, githubAction, getGithubIssues,
 }

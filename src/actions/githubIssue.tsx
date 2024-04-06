@@ -12,8 +12,8 @@ export async function getIssueList() {
     try{
         const octokit = await installationAuth()
         const issue = await octokit.request('GET /repos/{owner}/{repo}/issues',{
-            owner: process.env.AUTHOR_GITHUB_USERNAME as string,
-            repo: process.env.BLOG_REPO_NAME as string,
+            owner: process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string,
+            repo: process.env.NEXT_PUBLIC_BLOG_REPO_NAME as string,
             headers: headers
         })
         return issue.data.map((item: any) => {
@@ -29,8 +29,8 @@ export async function getIssueById({issueId}: {issueId: number}): Promise<issueD
     try{
         const octokit = await installationAuth()
         const res = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
-            owner: process.env.AUTHOR_GITHUB_USERNAME as string,
-            repo: process.env.BLOG_REPO_NAME as string,
+            owner: process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string,
+            repo: process.env.NEXT_PUBLIC_BLOG_REPO_NAME as string,
             issue_number: issueId,
             headers: headers
         })

@@ -3,7 +3,8 @@ import { Noto_Sans_TC } from "next/font/google";
 import React from "react";
 import "@/app/globals.css";
 import {Providers} from "@/app/Provider";
-import {NavBar} from "@/components/blocks/NavBar";
+import {NavBar} from "@/components/blocks/client/NavBar";
+import {Toaster} from "@/components/ui/sonner";
 const notoSansTC = Noto_Sans_TC({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function RootLayout({
                     <main className={"w-screen flex flex-col justify-center items-center"}>
                         <div className={"w-[90%] max-w-5xl"}>
                             <NavBar/>
+                            <Toaster/>
                             {children}
                         </div>
                     </main>

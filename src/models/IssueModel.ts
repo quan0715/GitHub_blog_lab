@@ -1,4 +1,4 @@
-import {IssueTag} from "@/components/blocks/tagChip";
+import {IssueTag} from "@/components/blocks/TagChip";
 import {metadata} from "@/app/layout";
 
 
