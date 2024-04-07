@@ -1,6 +1,11 @@
 import {IssueTag} from "@/components/blocks/TagChip";
 import {metadata} from "@/app/layout";
 
+export type IssueEntity = {
+    title: string,
+    body: string,
+    assignee: string
+}
 
 export type issueDataModelProps = {
     id: number,

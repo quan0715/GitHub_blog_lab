@@ -18,6 +18,7 @@ import {GithubAvatar} from "@/components/blocks/GithubAvatar";
 
 export function AvatarDropdown({avatar}: {avatar: GithubUserModelProps}) {
     const router = useRouter()
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>

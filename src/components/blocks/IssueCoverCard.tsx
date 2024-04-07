@@ -14,7 +14,7 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-function CoverImage({imageURL = null}: {imageURL: string | null}) {
+export function CoverImage({imageURL = null}: {imageURL: string | null}) {
         // return next image component if imageURL is not undefined
         // else return color block
         return (<div className={"hidden md:block"} style={{ position: 'relative', width: '100%', aspectRatio: "1.69"}}>
@@ -66,6 +66,7 @@ export function IssueCoverCard({issue}: {issue: issueDataModelProps}) {
 
 export function BlogPostHeader({issueData}: { issueData: issueDataModelProps }) {
     const issueModel = new IssueModel(issueData)
+
     return (
         <div className={"w-full flex flex-col items-center"}>
             <CoverImage imageURL={issueModel.cover_image}/>

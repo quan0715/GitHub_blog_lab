@@ -15,6 +15,7 @@ import {postNewComment} from "@/actions/githubComments";
 import {revalidatePath} from "next/cache";
 import {useRouter} from "next/navigation";
 import {toast} from "sonner";
+import {MarkdownEditForm} from "@/components/blocks/client/MarkdownEditForm";
 
 type CommentDisplayCardProps = {
     issueId: number,
@@ -38,18 +39,7 @@ export function NewCommentForm({issueId, author}: CommentDisplayCardProps) {
                     <GithubAvatar author={author}/>
                 </CardHeader>
                 <CardContent>
-                    <Tabs defaultValue="Write" className="w-full" >
-                        <TabsList>
-                            <TabsTrigger value="Write">撰寫</TabsTrigger>
-                            <TabsTrigger value="Preview">預覽</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="Write">
-                            <Textarea placeholder={"留言內容"} onChange={onInputChange} value={body}/>
-                        </TabsContent>
-                        <TabsContent value="Preview">
-                            <MarkdownDisplay source={body}/>
-                        </TabsContent>
-                    </Tabs>
+                    <MarkdownEditForm body={body} onInputChange={onInputChange}/>
                 </CardContent>
                 <CardFooter>
                     <Button onClick={
