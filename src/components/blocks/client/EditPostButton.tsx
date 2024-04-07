@@ -56,7 +56,7 @@ export function EditPostButton({creator, issueNumber = null, issueEntity=null}: 
                         </div>
                     </Button>
                 </DialogTrigger>
-                <DialogContent className={"w-[90%] min-w-2xl max-w-5xl"}>
+                <DialogContent className={"w-[90%] h-[90%] overflow-scroll max-h-[800px] max-w-4xl"}>
                     <DialogHeader>
                         <DialogTitle>{
                             issueNumber !== null
@@ -70,8 +70,8 @@ export function EditPostButton({creator, issueNumber = null, issueEntity=null}: 
                                     : '輸入標題與內文，標題為必填，內文則限制 30 個字'
                             }
                         </DialogDescription>
+                        <PostEditForm author={creator} issueNumber={issueNumber} issueEntity={issueEntity}/>
                     </DialogHeader>
-                    <PostEditForm author={creator} issueNumber={issueNumber} issueEntity={issueEntity}/>
                 </DialogContent>
             </Dialog>
         </Button>

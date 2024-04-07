@@ -84,7 +84,7 @@ export function PostEditForm({author, issueEntity = {} as IssueEntity, issueNumb
     }
 
     return (
-       <Card className={"w-full"}>
+       <Card className={"w-full h-full"}>
             <CardContent className={"p-4"}>
                 <Form {...form} >
                     <form className={"w-full grid grid-cols-1 gap-5"} onSubmit={form.handleSubmit(onSubmit)}>
@@ -122,8 +122,8 @@ export function PostEditForm({author, issueEntity = {} as IssueEntity, issueNumb
                                             <Textarea className={"min-h-72 max-h-96"} placeholder={"留言內容"} {...field}/>
                                         </TabsContent>
                                         <TabsContent value="Preview">
-                                            <Card>
-                                                <CardContent className={"p-4 min-h-72 max-h-96"}>
+                                            <Card className={"h-full overflow-scroll"}>
+                                                <CardContent className={"p-4 h-fit "}>
                                                     <MarkdownDisplay source={form.getValues('body')}/>
                                                 </CardContent>
                                             </Card>

@@ -70,9 +70,22 @@ async function createIssue({token, issueEntity}: createIssueProps): Promise<issu
             assignee: issueEntity.assignee,
             headers: headers
         })
-        return {
-            ...res.data,
-        } as issueDataModelProps
+        const newIssue = {...res.data} as issueDataModelProps
+        console.log('newIssue', newIssue)
+        return newIssue
+
+        // const appAuth = await installationAuth()
+        //
+        // const assign = await appAuth.request('PATCH /repos/{owner}/{repo}/issues/{issue_number}', {
+        //     owner: process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string,
+        //     repo: process.env.NEXT_PUBLIC_BLOG_REPO_NAME as string,
+        //     issue_number: newIssue.number,
+        //     assignee: issueEntity.assignee,
+        //     headers: headers
+        // })
+        // console.log('assign', assign.data)
+        //
+        // return {...assign.data} as issueDataModelProps
     }
     catch (e) {
         console.log('error', e)

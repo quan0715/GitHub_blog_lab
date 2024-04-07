@@ -32,7 +32,7 @@ export function CoverImage({imageURL = null}: {imageURL: string | null}) {
 
 function LabelsWrapper({labels}: {labels: IssueLabelModelProps[]}){
     return (
-        <div className={"flex flex-grow flex-wrap gap-1 flex-row py-4 justify-start"}>
+        <div className={"w-full flex flex-wrap gap-2 py-4 justify-start"}>
             {
                 labels.map((label) => {
                     return <TagChip key={label.id} labelData={label}/>
@@ -44,6 +44,7 @@ function LabelsWrapper({labels}: {labels: IssueLabelModelProps[]}){
 
 export function IssueCoverCard({issue}: {issue: issueDataModelProps}) {
     const issueModel = new IssueModel(issue)
+    // console.log(issueModel.data.assignee)
     return (
         <Card className={"overflow-hidden max-w-2xl max-h-unit-3xl"}>
             <Link href={`/${issueModel.data.number}`}>
