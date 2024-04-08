@@ -44,12 +44,19 @@ function hasPagination(linkHeader: string): boolean {
 
 export async function getAllIssue(paginationURL: string = ""): Promise<any>{
     try{
-        // const octokit = await installationAuth()
-        const token = await getTokenFromCookie()
-        if(token === undefined){
-            throw new Error('token is undefined')
-        }
-        const octokit = new Octokit({auth: token})
+
+        const authApp= new App({
+            appId: process.env.GITHUB_APP_ID as string,
+            privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+        })
+
+        const USERNAME = process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string
+        const {data} = await authApp.octokit.request(`GET /users/${USERNAME}/installation`,)
+        const INSTALLATION_ID = data['id']
+        console.log('INSTALLATION_ID', INSTALLATION_ID)
+
+        const octokit = await authApp.getInstallationOctokit(INSTALLATION_ID);
+
         const issue = paginationURL.length > 0
             ? await octokit.request('GET '+paginationURL, {headers: headers})
             : await octokit.request('GET /repos/{owner}/{repo}/issues',{
@@ -58,6 +65,8 @@ export async function getAllIssue(paginationURL: string = ""): Promise<any>{
                 per_page: 10,
                 headers: headers,
             })
+
+        // console.log('issue', issue)
 
         const result = issue.data.map((item: any) => {
             return {
@@ -144,16 +153,13 @@ export async function deleteIssue({issueId}: {issueId: number}){
 }
 export async function updateIssue({issueId, issueEntity, open=true}: {issueId: number, issueEntity: IssueEntity, open: boolean}): Promise<issueDataModelProps> {
 
-    const authApp= new App({
-        appId: process.env.GITHUB_APP_ID as string,
-        privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
-    })
-    const USERNAME = process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string
-    const {data} = await authApp.octokit.request(`GET /users/${USERNAME}/installation`,)
-    const INSTALLATION_ID = data['id']
+    const token = await getTokenFromCookie()
+    if(token === undefined){
+        throw new Error('token is undefined')
+    }
 
     try{
-        const octokit = await authApp.getInstallationOctokit(INSTALLATION_ID);
+        const octokit = new Octokit({auth: token})
         const res = await octokit.request('PATCH /repos/{owner}/{repo}/issues/{issue_number}', {
             owner: process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string,
             repo: process.env.NEXT_PUBLIC_BLOG_REPO_NAME as string,
