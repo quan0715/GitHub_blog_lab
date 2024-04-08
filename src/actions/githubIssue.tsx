@@ -9,10 +9,10 @@ import {
 
 import {
     getTokenFromCookie,
-    installationAuth,
 } from "@/actions/githubOauth"
 import {Octokit} from "@octokit/core";
-import {App} from "octokit";
+
+// import {App} from "octokit";
 
 const headers = {
     'X-Github-Api-Version': '2022-11-28'
@@ -44,40 +44,7 @@ function hasPagination(linkHeader: string): boolean {
 
 export async function getAllIssue(paginationURL: string = ""): Promise<any>{
     try{
-        console.log('appId', process.env.GITHUB_APP_ID)
-        // const appOctokit = new Octokit({
-        //     authStrategy: createAppAuth,
-        //     auth: {
-        //         appId: process.env.GITHUB_APP_ID as string,
-        //         privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
-        //     },
-        // });
-        // const { data } = await appOctokit.request("/app");
-        // console.log('data', data)
-        // const { token } = await appOctokit.auth({
-        //     type: "installation",
-        //     installationId: 48993599,
-        // });
-        // const authApp= new App({
-        //     appId: process.env.GITHUB_APP_ID as string,
-        //     privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
-        // })
-        //
-        // const USERNAME = process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string
-        // console.log('USERNAME', USERNAME)
-        // const {data} = await authApp.octokit.request(`GET /users/${USERNAME}/installation`,)
-        // const INSTALLATION_ID = data['id']
-        // console.log('INSTALLATION_ID', INSTALLATION_ID)
-
-        // const INSTALLATION_ID = 48993599
-        //
-        // const octokit = await authApp.getInstallationOctokit(INSTALLATION_ID);
-
-        // const token = await getTokenFromCookie()
-        // if(token === undefined){
-        //     throw new Error('token is undefined')
-        // }
-
+        console.log('token', process.env.GTHUB_ACCESS_TOKEN)
         const octokit = new Octokit({auth: process.env.GTHUB_ACCESS_TOKEN})
 
         const issue = paginationURL.length > 0
@@ -112,7 +79,9 @@ export async function getAllIssue(paginationURL: string = ""): Promise<any>{
 // gitHub app action
 export async function getIssueById({issueId}: {issueId: number}): Promise<issueDataModelProps> {
     try{
-        const octokit = await installationAuth()
+        // const octokit = await installationAuth()
+        const token = process.env.GTHUB_ACCESS_TOKEN as string
+        const octokit = new Octokit({auth: token})
         const res = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}', {
             owner: process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string,
             repo: process.env.NEXT_PUBLIC_BLOG_REPO_NAME as string,

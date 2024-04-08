@@ -13,8 +13,6 @@ import {useRouter} from "next/navigation";
 export function OAuthButton() {
 
     const client_id = process.env.GITHUB_CLIENT_ID as string
-    const secret = process.env.GITHUB_CLIENT_SECRET
-    const redirect_uri = process.env.GITHUB_REDIRECT_URI
     const url = 'https://github.com/login/oauth/authorize?client_id=Iv1.462e3b2f1c7c326f'
     const router = useRouter()
 

@@ -10,12 +10,13 @@ import {IssueDisplayList} from "@/components/blocks/client/IssueDisplayList";
 export default async function Home() {
 
     const fetchRes = await getAllIssue()
-    const token = await getTokenFromCookie()
-
     let user: GithubUserModelProps | null = null
 
-    if(token !==undefined && token.length > 0){
+    try{
         user = await getGithubUser()
+    }
+    catch (e){
+        console.log('user not found')
     }
 
     return (
