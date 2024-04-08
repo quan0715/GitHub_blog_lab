@@ -52,7 +52,7 @@ export function IssueCoverCard({issue}: {issue: issueDataModelProps}) {
                     <CoverImage imageURL={issueModel.cover_image}/>
                 </CardHeader>
                 <CardContent className={"flex flex-col w-full flex-grow justify-start items-start gap-y-2"}>
-                    <GithubAvatar author={issueModel.data.assignee}/>
+                    <GithubAvatar author={issueModel.data.user}/>
                     <section>
                         <div className={"text-xl font-semibold"}>{issueModel.title}</div>
                         <div className={"text-lg font-light"}>{issueModel.subtitle}</div>
@@ -72,7 +72,7 @@ export function BlogPostHeader({issueData}: { issueData: issueDataModelProps }) 
         <div className={"w-full flex flex-col items-center"}>
             <CoverImage imageURL={issueModel.cover_image}/>
             <div className={"w-full flex flex-col py-5"}>
-                <GithubAvatar author={issueModel.data.assignee}/>
+                <GithubAvatar author={issueModel.data.user}/>
                 <section>
                     <div className={"text-3xl font-semibold"}>{issueModel.title}</div>
                     <div className={"text-2xl font-light"}>{issueModel.subtitle}</div>

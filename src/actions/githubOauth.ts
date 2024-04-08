@@ -43,6 +43,7 @@ export async function githubActionWrapper(func: Function) {
 }
 
 async function getUserInfo(token: string) {
+    // console.log('token', token)
     const octokit = new Octokit({auth: token})
     const response = await octokit.request('GET /user',{
         headers: {
@@ -57,11 +58,13 @@ async function getUserInfo(token: string) {
 }
 
 export async function getGithubUser(): Promise<GithubUserModelProps> {
-    const res = await githubActionWrapper(getUserInfo)
-    if(res === undefined){
+    const token = await getTokenFromCookie()
+    // console.log('token', token)
+    if(token === undefined || token?.length === 0){
        throw new Error('token is undefined')
     }
-    return res as GithubUserModelProps
+    const user = await getUserInfo(token as string)
+    return user
 }
 
 export async function githubSignOut(){

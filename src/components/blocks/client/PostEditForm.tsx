@@ -88,7 +88,7 @@ export function PostEditForm({author, issueEntity = {} as IssueEntity, issueNumb
             <CardContent className={"p-4"}>
                 <Form {...form} >
                     <form className={"w-full grid grid-cols-1 gap-5"} onSubmit={form.handleSubmit(onSubmit)}>
-                        <div className="flex flex-col space-y-2 py-2">
+                        <div className="flex flex-col items-start space-y-2 py-2">
                             <Label htmlFor="name">作者</Label>
                             <GithubAvatar author={author}/>
                         </div>

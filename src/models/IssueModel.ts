@@ -14,6 +14,7 @@ export type issueDataModelProps = {
     body: string,
     title: string,
     labels: IssueLabelModelProps[],
+    user: GithubUserModelProps,
     assignee: GithubUserModelProps | null,
     assignees: GithubUserModelProps[],
     state: 'open' | 'closed' | 'draft',

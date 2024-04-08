@@ -5,10 +5,11 @@ import { IssueCoverCard } from "@/components/blocks/IssueCoverCard";
 import { EditPostButton } from "@/components/blocks/client/EditPostButton";
 import {getTokenFromCookie, getGithubUser} from "@/actions/githubOauth";
 import {GithubUserModelProps} from "@/models/IssueModel";
+import {IssueDisplayList} from "@/components/blocks/client/IssueDisplayList";
 
 export default async function Home() {
 
-    const issueList = await getAllIssue()
+    const fetchRes = await getAllIssue()
     const token = await getTokenFromCookie()
 
     let user: GithubUserModelProps | null = null
@@ -32,15 +33,16 @@ export default async function Home() {
                     <span className={"text-sm font-extralight"}> power by Github Issue</span>
                 </p>
             </div>
-            <div className={"grid grid-cols-1 md:grid-cols-2 gap-4 py-4"}>
-                {
-                    issueList.map((issue) => {
-                        return (
-                            <IssueCoverCard key={issue.id} issue={issue}/>
-                        )
-                    })
-                }
-            </div>
+            {/*<div className={"grid grid-cols-1 md:grid-cols-2 gap-4 py-4"}>*/}
+            {/*    {*/}
+            {/*        fetchRes.data.map((issue) => {*/}
+            {/*            return (*/}
+            {/*                <IssueCoverCard key={issue.id} issue={issue}/>*/}
+            {/*            )*/}
+            {/*        })*/}
+            {/*    }*/}
+            {/*</div>*/}
+            <IssueDisplayList issueData={fetchRes.data} nextURL={fetchRes.next}/>
         </div>
     )
 }
