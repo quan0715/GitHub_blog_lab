@@ -26,7 +26,28 @@ export async function installationAuth(){
 
 export async function getTokenFromCookie(){
     const token =  cookies().get('access_token')
+
     if(token === undefined || token.value === ''){
+        return undefined
+    }
+
+    // check token expired
+    const octokit = new Octokit({auth: token.value})
+    try{
+        const res = await octokit.request('GET /user',{
+            headers: {
+                'X-Github-Api-Version': '2022-11-28'
+            }
+        })
+        if(res.status !== 200){
+            throw new Error('token expired')
+        }
+    }
+    catch (e){
+        console.log('token expired')
+        cookies().set('access_token', '', {
+            maxAge: 0
+        })
         return undefined
     }
     return token.value

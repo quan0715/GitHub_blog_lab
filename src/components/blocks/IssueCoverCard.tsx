@@ -54,7 +54,7 @@ export function IssueCoverCard({issue}: {issue: issueDataModelProps}) {
                 <CardContent className={"flex flex-col w-full flex-grow justify-start items-start gap-y-2"}>
                     <GithubAvatar author={issueModel.data.user}/>
                     <section>
-                        <div className={"text-xl font-semibold"}>{issueModel.title}</div>
+                        <div className={"text-lg font-semibold"}>{issueModel.title}</div>
                         <div className={"text-lg font-light"}>{issueModel.subtitle}</div>
                     </section>
                     <LabelsWrapper labels={issueModel.data.labels}/>

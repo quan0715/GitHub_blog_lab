@@ -25,10 +25,12 @@ export async function GET(req: NextRequest) {
 
     const json = await response.json()
     const accessToken = json['access_token']
+    const refreshToken = json['refresh_token']
 
     // store access token in session
     console.log('set token to cookies', accessToken)
     cookies().set('access_token', accessToken)
+    cookies().set('refresh_token', refreshToken)
 
     return NextResponse.redirect(new URL("/", req.nextUrl));
 }
