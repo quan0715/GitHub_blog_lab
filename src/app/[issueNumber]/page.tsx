@@ -33,7 +33,7 @@ export default async function PostPage({params}: { params: { issueNumber: string
         <div>
             {
                user?.login !== undefined && user?.login === issueModel.data.user?.login
-                    ? <div className={"fixed grid grid-cols-1 gap-4 bottom-12 right-12"}>
+                    ? <div className={"fixed grid grid-cols-1 gap-4 bottom-8 right-8 md:bottom-12 md:right-12 md:gap-2"}>
                        <EditPostButton issueNumber={issueModel.data.number} creator={user} issueEntity={{
                             title: issueModel.data.title,
                             body: issueModel.metadata.body

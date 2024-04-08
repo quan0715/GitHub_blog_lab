@@ -15,6 +15,7 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import {GithubUserModelProps} from "@/models/IssueModel";
 import {GithubAvatar} from "@/components/blocks/GithubAvatar";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 
 export function AvatarDropdown({avatar}: {avatar: GithubUserModelProps}) {
     const router = useRouter()
@@ -22,7 +23,13 @@ export function AvatarDropdown({avatar}: {avatar: GithubUserModelProps}) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger>
-                <GithubAvatar author={avatar}/>
+               <div className={"hidden md:block "}>
+                   <GithubAvatar author={avatar}/>
+               </div>
+                <Avatar className={"md:hidden w-8 h-8"}>
+                    <AvatarImage src={avatar.avatar_url} alt={avatar.login}/>
+                    <AvatarFallback>{avatar.login}</AvatarFallback>
+                </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

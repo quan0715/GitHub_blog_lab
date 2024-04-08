@@ -22,7 +22,7 @@ export default async function Home() {
         <div className={"p-6"}>
             {
                 user !== null  ?
-                    <div className={"fixed bottom-12 right-12 "}>
+                    <div className={"fixed bottom-8 right-8 md:bottom-12 md:right-12"}>
                         <EditPostButton creator={user} />
                     </div> : null
             }
@@ -33,15 +33,6 @@ export default async function Home() {
                     <span className={"text-sm font-extralight"}> power by Github Issue</span>
                 </p>
             </div>
-            {/*<div className={"grid grid-cols-1 md:grid-cols-2 gap-4 py-4"}>*/}
-            {/*    {*/}
-            {/*        fetchRes.data.map((issue) => {*/}
-            {/*            return (*/}
-            {/*                <IssueCoverCard key={issue.id} issue={issue}/>*/}
-            {/*            )*/}
-            {/*        })*/}
-            {/*    }*/}
-            {/*</div>*/}
             <IssueDisplayList issueData={fetchRes.data} nextURL={fetchRes.next}/>
         </div>
     )

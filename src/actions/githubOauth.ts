@@ -45,9 +45,9 @@ export async function getTokenFromCookie(){
     }
     catch (e){
         console.log('token expired')
-        cookies().set('access_token', '', {
-            maxAge: 0
-        })
+        // cookies().set('access_token', '', {
+        //     maxAge: 0
+        // })
         return ''
     }
     return token.value
