@@ -22,10 +22,11 @@ https://github.com/quan0715/GitHub_blog_lab/assets/60366187/a134a8d4-93b3-449c-a
 
 * 主界面
   * NavBar: Logo / Theme 切換 /OAuth 登入
+  * 一次載入10筆資料
   * 登入後
     1. OAuth Button 會切成 User Avatar 並且可以在此登出
     2. 左下角會出現 Add Button 來讓人新增貼文
-    3. 誠實的說 Infinity Scrolling 還沒做完，如果我做完了我再把這句刪除
+
 
 > 新增文章操作
 

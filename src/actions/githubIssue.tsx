@@ -12,6 +12,7 @@ import {
     installationAuth,
 } from "@/actions/githubOauth"
 import {Octokit} from "@octokit/core";
+import {App} from "octokit";
 
 const headers = {
     'X-Github-Api-Version': '2022-11-28'
@@ -41,31 +42,34 @@ function hasPagination(linkHeader: string): boolean {
     return (linkHeader && linkHeader.includes(`rel=\"next\"`)) as boolean
 }
 
-export async function getAllIssue(paginationURL?: string | undefined): Promise<any>{
+export async function getAllIssue(paginationURL: string = ""): Promise<any>{
     try{
-        const octokit = await installationAuth()
-        const issue = paginationURL !== undefined
+        // const octokit = await installationAuth()
+        const token = await getTokenFromCookie()
+        if(token === undefined){
+            throw new Error('token is undefined')
+        }
+        const octokit = new Octokit({auth: token})
+        const issue = paginationURL.length > 0
             ? await octokit.request('GET '+paginationURL, {headers: headers})
             : await octokit.request('GET /repos/{owner}/{repo}/issues',{
                 owner: process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string,
                 repo: process.env.NEXT_PUBLIC_BLOG_REPO_NAME as string,
-                // per_page: 10,
+                per_page: 10,
                 headers: headers,
             })
-        // console.log('issue', issue.data)
+
         const result = issue.data.map((item: any) => {
-            return {...item}
+            return {
+                ...item
+            }
         })
-        console.log('result', result)
+        // console.log('result', result)
         const link = issue.headers.link as string
-        return {
-            // issues: JSON.parse(JSON.stringify({
-            //     data: result as issueDataModelProps[],
-            //     next: hasPagination(link) ? getPagingURL(link) : undefined
-            // })),
-            data: result as issueDataModelProps[],
-            next: link// hasPagination(link) ? getPagingURL(link) : ''
-        }
+        return JSON.parse(JSON.stringify({
+            data: JSON.parse(JSON.stringify(result)),
+            next: hasPagination(link) ? getPagingURL(link) : undefined
+        }))
     } catch (e) {
         console.log('error', e)
         return {} as getIssueResultProps
@@ -139,13 +143,17 @@ export async function deleteIssue({issueId}: {issueId: number}){
 
 }
 export async function updateIssue({issueId, issueEntity, open=true}: {issueId: number, issueEntity: IssueEntity, open: boolean}): Promise<issueDataModelProps> {
-    const token = await getTokenFromCookie()
-    if(token === undefined){
-        throw new Error('token is undefined')
-    }
+
+    const authApp= new App({
+        appId: process.env.GITHUB_APP_ID as string,
+        privateKey: (process.env.GITHUB_PRIVATE_KEY as string).replace(/\\n/g, '\n'),
+    })
+    const USERNAME = process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string
+    const {data} = await authApp.octokit.request(`GET /users/${USERNAME}/installation`,)
+    const INSTALLATION_ID = data['id']
 
     try{
-        const octokit = new Octokit({auth: token})
+        const octokit = await authApp.getInstallationOctokit(INSTALLATION_ID);
         const res = await octokit.request('PATCH /repos/{owner}/{repo}/issues/{issue_number}', {
             owner: process.env.NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME as string,
             repo: process.env.NEXT_PUBLIC_BLOG_REPO_NAME as string,
@@ -165,7 +173,3 @@ export async function updateIssue({issueId, issueEntity, open=true}: {issueId: n
         return {} as issueDataModelProps
     }
 }
-
-
-// gitHub user oauth action
-// delete issue by issue number

@@ -12,15 +12,16 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
     const [_nextURL, setNextURL] = useState<string | undefined>(nextURL)
     const [ ref, inView,  ] = useInView()
     const [isPending, startTransition] = useTransition();
-
+    console.log(nextURL)
     useEffect(() => {
         if(inView && _nextURL !== undefined){
+            // const refetch = getAllIssue.bind(_nextURL)
             startTransition(
-                () => {
-                    getAllIssue(_nextURL).then((result) => {
-                        setIssueData([..._issueData, ...result.data])
-                        setNextURL(result.issues.next)
-                    })
+                async  () => {
+                    const res = await getAllIssue(_nextURL)
+                    // console.log('res', res.next)
+                    setIssueData([..._issueData, ...res.data])
+                    setNextURL(res.next)
                 }
             )
             // getAllIssue(_nextURL).then((result) => {
@@ -29,10 +30,10 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
             // })
             // setIssueData([..._issueData, ..._issueData])
 
-            console.log("inView", inView)
+            // console.log("inView", inView)
 
         }
-    }, [inView, _issueData, _nextURL]);
+    }, [inView,]);
 
     return (
         <div className={"w-full"}>
@@ -48,11 +49,15 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
                     // })
                 }
             </div>
-            {/*{*/}
-            {/*    _nextURL === undefined ? : null*/}
-            {/*}*/}
-            {/*<div className={"text-center text-gray-500"}>No more issues</div>*/}
-            {/*<Loader2 className="mr-2 h-4 w-4 animate-spin" ref={ref}/>*/}
+            <div ref={ref} className={"w-full flex justify-center items-center"}>
+                {
+                    _nextURL === undefined
+                        ? <div className={"text-center text-gray-500"}>No more issues</div>
+                        :  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                }
+            </div>
+
+
         </div>
     );
 }

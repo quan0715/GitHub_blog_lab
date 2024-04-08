@@ -22,7 +22,7 @@ export default async function Home() {
         <div className={"p-6"}>
             {
                 user !== null  ?
-                    <div className={"fixed bottom-8 right-8 md:bottom-12 md:right-12"}>
+                    <div className={"fixed bottom-4 right-4 md:bottom-8 md:right-8"}>
                         <EditPostButton creator={user} />
                     </div> : null
             }
