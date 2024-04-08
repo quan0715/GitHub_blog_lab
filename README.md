@@ -102,4 +102,31 @@ https://github.com/quan0715/GitHub_blog_lab/assets/60366187/104bbbab-1b8a-4d16-b
     * page -> 主頁面
     * [issueNumber] -> 動態路由渲染文章介面
     * api/oauth/callback -> oauth redirect url
+
+
+### Local 環境設定
+1. Clone Repo
+  ```
+  git clone https://github.com/quan0715/GitHub_blog_lab.git
+  ```
+2. install package
+  ```
+  npm install
+  ```
+3. 建立 .env.local
+  請參考 .env.example，其中包含了 Github App 的 Client ID 與 Client Secret
+  申請 Github App 後可以取得
+  另外 `GTHUB_ACCESS_TOKEN` 是用來操作 Github API 的 token，需要手動去申請，並且請求對應的權限以及指定 Issue Repo
+  ```
+    NEXT_PUBLIC_AUTHOR_GITHUB_USERNAME=YOUR_GITHUB_USERNAME
+    NEXT_PUBLIC_BLOG_REPO_NAME=YOUR_ISSUE_REPO_NAME
+    NEXT_PUBLIC_GITHUB_CLIENT_ID=YOUR_CLIENT_ID
+    GITHUB_CLIENT_SECRET=YOUR_GITHUB_APP_CLIENT_SECRET
+    GTHUB_ACCESS_TOKEN=YOUR_GITHUB_ACCESS_TOKEN
+   ```
     
+4. 啟動專案
+  ```
+  npm run dev
+  ```
+   

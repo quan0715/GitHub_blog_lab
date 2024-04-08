@@ -27,10 +27,8 @@ function LogoButton() {
 
 export async function NavBar() {
 
-    let user: GithubUserModelProps = {
-        login: "",
-        avatar_url: "",
-    }
+    let user: GithubUserModelProps | null = null
+
     try{
         user = await getGithubUser()
     } catch (e) {
@@ -43,7 +41,7 @@ export async function NavBar() {
             <div className={"flex flex-row justify-end space-x-2"}>
                 <ThemeSwitcherButton/>
                 {
-                    user.login.length === 0
+                    user === null
                         ? <OAuthButton/>
                         : <AvatarDropdown avatar={user}/>
                 }
