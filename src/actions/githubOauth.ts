@@ -48,7 +48,7 @@ export async function getTokenFromCookie(){
         cookies().set('access_token', '', {
             maxAge: 0
         })
-        return undefined
+        return ''
     }
     return token.value
 }
