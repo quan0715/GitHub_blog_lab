@@ -12,8 +12,6 @@ import {
     installationAuth,
 } from "@/actions/githubOauth"
 import {Octokit} from "@octokit/core";
-import {it} from "node:test";
-import {getAllIssueLib} from "@/lib/getIssue"
 
 const headers = {
     'X-Github-Api-Version': '2022-11-28'
