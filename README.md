@@ -13,6 +13,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 * 授權用 Github App
   [連結](https://github.com/apps/blogportal)
 
+* 貼文範例
+  [連結](https://github-blog-lab.vercel.app/4)
+
 ## 介面與功能介紹
 此次專案在環境設定功能已經自動綁定，[Issue Repo](https://github.com/quan0715/GithubBlogPortal)，並且開放任何登入後的使用者可以留言與 *發文* ，當然該用者也只能自行刪除或編輯自己發的文章，目的是希望這個版可以更偏向大家共同的小空間而非個人部落格。
 > 操作影片1
@@ -22,7 +25,7 @@ https://github.com/quan0715/GitHub_blog_lab/assets/60366187/a134a8d4-93b3-449c-a
 
 * 主界面
   * NavBar: Logo / Theme 切換 /OAuth 登入
-  * 一次載入10筆資料
+  * 一次載入10筆資料，隨後滑到底會繼續載入
   * 登入後
     1. OAuth Button 會切成 User Avatar 並且可以在此登出
     2. 左下角會出現 Add Button 來讓人新增貼文
@@ -79,11 +82,14 @@ https://github.com/quan0715/GitHub_blog_lab/assets/60366187/104bbbab-1b8a-4d16-b
   * 全端：Next.js(typescript + app Router)
   * CSS: tailwind CSS
   * UI Kit: [shadcn/ui](https://ui.shadcn.com)
+* 部署平台
+  * [Vercel](https://vercel.com/)
     
 * OAuth: 建立 Github App （非 Github OAuth）來當作授權，並設定 .env 來處理環境變數
-  * 非登入操作使用 App Auth/ 登入操作使用 user auth(token base)
+  * 非登入操作使用 User-Token 操作 / 登入操作使用 user auth(token base)
 
 * 表單驗證： `useForm`
+* Infinity scroll: `useInView1` 
 * Markdown Display: 'react-markdown' & 'tailwindcss/typography'
 
 * 專案架構 
