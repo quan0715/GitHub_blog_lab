@@ -1,23 +1,19 @@
 'use client'
 import React from 'react'
-import { NextUIProvider } from '@nextui-org/react'
 import { ThemeProvider as NextThemeProvider } from 'next-themes'
-import ReactQueryProvider from "@/Providers/QueryProviders";
-// import { useRouter } from 'next/navigation'
-
+import { Analytics } from "@vercel/analytics/react"
 interface ProviderProps {
     children: React.ReactNode
 }
 export function Providers({children }:ProviderProps) {
     return (
         <React.StrictMode>
-            <ReactQueryProvider>
-                <NextThemeProvider
-                    attribute="class"
-                    defaultTheme="system">
-                    {children}
-                </NextThemeProvider>
-            </ReactQueryProvider>
+            <Analytics/>
+            <NextThemeProvider
+                attribute="class"
+                defaultTheme="system">
+                {children}
+            </NextThemeProvider>
         </React.StrictMode>
 
     )
