@@ -15,7 +15,6 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
     console.log(nextURL)
     useEffect(() => {
         if(inView && _nextURL !== undefined){
-            // const refetch = getAllIssue.bind(_nextURL)
             startTransition(
                 async  () => {
                     const res = await getAllIssue(_nextURL)
@@ -24,16 +23,8 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
                     setNextURL(res.next)
                 }
             )
-            // getAllIssue(_nextURL).then((result) => {
-            //     setIssueData([..._issueData, ...result.data])
-            //     setNextURL(result.issues.next)
-            // })
-            // setIssueData([..._issueData, ..._issueData])
-
-            // console.log("inView", inView)
-
         }
-    }, [inView,]);
+    }, [inView, _nextURL, _issueData])
 
     return (
         <div className={"w-full"}>

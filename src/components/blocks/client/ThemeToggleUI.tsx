@@ -27,7 +27,7 @@ export function ThemeSwitcherButton() {
     }
 
     return (
-        <Button variant="outline" size="icon" onClick={toggleTheme}>
+        <Button id={"theme-toggle"} variant="outline" size="icon" onClick={toggleTheme}>
             {
                 theme === "dark"  ? <DarkThemeIcon/> : <LightThemeIcon/>
             }

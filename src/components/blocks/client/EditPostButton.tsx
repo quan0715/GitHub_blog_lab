@@ -43,7 +43,7 @@ export function EditPostButton({creator, issueNumber = null, issueEntity=null}: 
     const router = useRouter()
 
     return (
-        <Button className={"w-14 h-14 rounded-2xl"} size={"icon"} asChild>
+        <Button id={"edit-issue-button"} className={"w-14 h-14 rounded-2xl"} size={"icon"} asChild>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button className={"w-14 h-14 rounded-xl"}>
