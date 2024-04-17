@@ -19,15 +19,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build with Next.js
-
-        run: npm run build
-
       - name: Cypress run
         env:
           DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
         uses: cypress-io/github-action@v6
         with:
           build: npm run build
-          start: npm start
+          start: npm run start
 
