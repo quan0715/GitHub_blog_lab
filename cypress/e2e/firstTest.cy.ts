@@ -79,36 +79,7 @@ describe('home page spec', () => {
     cy.get('#blog-list-footer').should('exist')
     cy.scrollTo('bottom')
     cy.wait(3000)
-    //
-    // cy.get('#blog-list-footer').scrollIntoView()
-    // cy.wait(1000)
     cy.get('#blog-list-footer').should('have.text', 'No more issues')
   })
 
-  // it('test home page with user', () => {
-  //   cy.login()
-  // })
-
-  // it('get oauth button', () => {
-  //   // cy.login()
-  //   cy.visit('http://localhost:3000')
-  //   // get oauth button
-  //   const button = cy.get('#oauth-button')
-  //   button.should('exist')
-  //
-  //   // submit gitHub login form
-  //   // button.click()
-  //
-  //
-  //
-  //   // cy.log(process.env.GTHUB_ACCESS_TOKEN as string)
-  //
-
-  //
-  //   const token = cy.getCookie('access_token').should('exist')
-  //   console.log('token', token)
-  //
-  //   // check user avatar exist
-  //   cy.get('#user-avatar').should('exist')
-  // })
 })
