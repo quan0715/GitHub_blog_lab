@@ -1,5 +1,4 @@
 import {validate} from "json-schema";
-
 // @ts-ignore
 
 declare global {
@@ -102,6 +101,9 @@ describe('home page spec', () => {
     //   cy.log('submit login form')
     //
     // })
+
+
+    // cy.log(process.env.GTHUB_ACCESS_TOKEN as string)
 
     cy.wait(1000)
         .setCookie('access_token', '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')
