@@ -99,14 +99,6 @@ describe('home page spec', () => {
   //   // submit gitHub login form
   //   // button.click()
   //
-  //   // cy.origin('https://github.com', () => {
-  //   //   cy.get('#login_field').type('quan0715')
-  //   //   cy.get('#password').type('H125920690quan')
-  //   //   cy.get('input[name="commit"]').click()
-  //   //
-  //   //   cy.log('submit login form')
-  //   //
-  //   // })
   //
   //
   //   // cy.log(process.env.GTHUB_ACCESS_TOKEN as string)
