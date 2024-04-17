@@ -111,9 +111,7 @@ describe('home page spec', () => {
   //
   //   // cy.log(process.env.GTHUB_ACCESS_TOKEN as string)
   //
-  //   cy.wait(1000)
-  //       .setCookie('access_token', 'ghu_BRgRe8qlyKyOkO48BFA9bN3m8xUOhy2Kdodg')
-  //       .reload()
+
   //
   //   const token = cy.getCookie('access_token').should('exist')
   //   console.log('token', token)
