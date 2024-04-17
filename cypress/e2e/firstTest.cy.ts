@@ -50,6 +50,10 @@ describe('home page spec', () => {
         .should('have.text', 'Welcome to Quan 的 Blog 順便當作 Dcard 2024 實習 Intern Demo power by Github Issue')
   })
 
+  it('test home page with user', () => {
+    cy.login()
+  })
+
   // it('get oauth button', () => {
   //   // cy.login()
   //   cy.visit('http://localhost:3000')
