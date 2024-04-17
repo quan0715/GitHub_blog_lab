@@ -40,7 +40,7 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
                     // })
                 }
             </div>
-            <div ref={ref} className={"w-full flex justify-center items-center"}>
+            <div id={"blog-list-footer"} ref={ref} className={"w-full flex justify-center items-center"}>
                 {
                     _nextURL === undefined
                         ? <div className={"text-center text-gray-500"}>No more issues</div>
