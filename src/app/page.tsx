@@ -29,7 +29,7 @@ export default async function Home() {
             }
             <div className={"w-full h-48 rounded-xl flex flex-col justify-center items-center gap-y-5"}>
                 {/*<p test className="text-xl font-bold">Quan 的 Blog</p>*/}
-                <p className={"text-sm font-light flex flex-col justify-center items-center"}>
+                <p id={"welcome-message"} className={"text-sm font-light flex flex-col justify-center items-center"}>
                     <span>Welcome to Quan 的 Blog 順便當作 Dcard 2024 實習 Intern Demo</span>
                     <span className={"text-sm font-extralight"}> power by Github Issue</span>
                 </p>
