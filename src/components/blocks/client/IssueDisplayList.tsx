@@ -19,7 +19,8 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
                 async  () => {
                     const res = await getAllIssue(_nextURL)
                     // console.log('res', res.next)
-                    setIssueData([..._issueData, ...res.data])
+
+                    setIssueData([..._issueData, ...(res.data ?? [])])
                     setNextURL(res.next)
                 }
             )
