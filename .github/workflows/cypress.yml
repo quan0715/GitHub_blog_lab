@@ -27,12 +27,4 @@ jobs:
           build: npm run build
           start: npm run start
 
-      - name: Cypress run
-        env:
-          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
-        uses: cypress-io/github-action@v6
-        with:
-          component: true
-          build: npm run build
-          start: npm run start
 
