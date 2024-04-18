@@ -27,6 +27,8 @@ export async function GET(req: NextRequest) {
     const accessToken = json['access_token']
     const refreshToken = json['refresh_token']
 
+    console.log('access token', accessToken)
+    console.log('refresh token', refreshToken)
     // store access token in session
     console.log('set token to cookies', accessToken)
     cookies().set('access_token', accessToken)

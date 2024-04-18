@@ -1,0 +1,30 @@
+name: End-to-end tests
+on:
+  push:
+    branches:
+      - test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Cypress run
+        env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm run start
+
+

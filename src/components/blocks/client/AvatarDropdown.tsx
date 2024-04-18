@@ -21,8 +21,8 @@ export function AvatarDropdown({avatar}: {avatar: GithubUserModelProps}) {
     const router = useRouter()
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger>
+        <DropdownMenu >
+            <DropdownMenuTrigger id={"user-avatar"}>
                <div className={"hidden md:block "}>
                    <GithubAvatar author={avatar}/>
                </div>

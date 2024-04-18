@@ -15,25 +15,17 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
     console.log(nextURL)
     useEffect(() => {
         if(inView && _nextURL !== undefined){
-            // const refetch = getAllIssue.bind(_nextURL)
             startTransition(
                 async  () => {
                     const res = await getAllIssue(_nextURL)
                     // console.log('res', res.next)
-                    setIssueData([..._issueData, ...res.data])
+
+                    setIssueData([..._issueData, ...(res.data ?? [])])
                     setNextURL(res.next)
                 }
             )
-            // getAllIssue(_nextURL).then((result) => {
-            //     setIssueData([..._issueData, ...result.data])
-            //     setNextURL(result.issues.next)
-            // })
-            // setIssueData([..._issueData, ..._issueData])
-
-            // console.log("inView", inView)
-
         }
-    }, [inView,]);
+    }, [inView, _nextURL, _issueData])
 
     return (
         <div className={"w-full"}>
@@ -49,7 +41,7 @@ export function IssueDisplayList({ issueData, nextURL } : { issueData: issueData
                     // })
                 }
             </div>
-            <div ref={ref} className={"w-full flex justify-center items-center"}>
+            <div id={"blog-list-footer"} ref={ref} className={"w-full flex justify-center items-center"}>
                 {
                     _nextURL === undefined
                         ? <div className={"text-center text-gray-500"}>No more issues</div>
