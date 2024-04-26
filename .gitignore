@@ -27,8 +27,9 @@ yarn-error.log*
 
 # local env files
 .env
+.env.ci
 .env*.local
-
+.env*
 
 # vercel
 .vercel
@@ -37,7 +38,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.env*
 .flaskenv*
 !.env.project
 !.env.vault
