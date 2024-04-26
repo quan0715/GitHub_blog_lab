@@ -1,31 +1,23 @@
 
 import React from 'react'
-import { getAllIssue } from "@/actions/githubIssue";
-import { IssueCoverCard } from "@/components/blocks/IssueCoverCard";
-import { EditPostButton } from "@/components/blocks/client/EditPostButton";
-import {getTokenFromCookie, getGithubUser} from "@/actions/githubOauth";
+import { getAllIssue } from "@/actions/githubIssue"
+import { IssueCoverCard } from "@/components/blocks/IssueCoverCard"
+import { EditPostButton } from "@/components/blocks/client/EditPostButton"
+import {UserProvider} from "@/Providers/UserProvider"
 import {GithubUserModelProps} from "@/models/IssueModel";
 import {IssueDisplayList} from "@/components/blocks/client/IssueDisplayList";
+import {NavBar} from "@/components/blocks/client/NavBar";
 
 export default async function Home() {
 
     const fetchRes = await getAllIssue()
-    let user: GithubUserModelProps | null = null
-
-    try{
-        user = await getGithubUser()
-    }
-    catch (e){
-        console.log('user not found')
-    }
 
     return (
         <div className={"p-6"}>
             {
-                user !== null  ?
-                    <div className={"fixed bottom-4 right-4 md:bottom-8 md:right-8"}>
-                        <EditPostButton creator={user} />
-                    </div> : null
+                <div className={"fixed bottom-4 right-4 md:bottom-8 md:right-8"}>
+                    <EditPostButton/>
+                </div>
             }
             <div className={"w-full h-48 rounded-xl flex flex-col justify-center items-center gap-y-5"}>
                 {/*<p test className="text-xl font-bold">Quan 的 Blog</p>*/}

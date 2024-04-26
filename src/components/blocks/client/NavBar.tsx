@@ -1,17 +1,11 @@
-
+'use client';
 import {Logo, ThemeSwitcherButton} from "@/components/blocks/client/ThemeToggleUI";
 import {OAuthButton} from "@/components/blocks/client/OauthButton";
-import React from "react";
-import {cookies} from "next/headers";
-import {getGithubUser} from "@/actions/githubOauth";
+import React, {useContext} from "react";
 import Link from "next/link";
-import {GithubAvatar} from "@/components/blocks/GithubAvatar";
-
-import {LogOut} from "lucide-react";
-import {Button} from "@/components/ui/button";
-import {redirect} from "next/navigation";
 import {AvatarDropdown} from "@/components/blocks/client/AvatarDropdown";
-import {GithubUserModelProps} from "@/models/IssueModel";
+import {UserContext} from "@/Providers/UserProvider"
+
 
 function LogoButton() {
     // redirect to home page
@@ -25,15 +19,9 @@ function LogoButton() {
     );
 }
 
-export async function NavBar() {
+export function NavBar() {
 
-    let user: GithubUserModelProps | null = null
-
-    try{
-        user = await getGithubUser()
-    } catch (e) {
-        console.error(e)
-    }
+    let userContext = useContext(UserContext)
 
     return (
         <div className={"w-full flex flex-row justify-between py-4"}>
@@ -41,9 +29,9 @@ export async function NavBar() {
             <div className={"flex flex-row justify-end space-x-2"}>
                 <ThemeSwitcherButton/>
                 {
-                    user === null
+                    userContext.user === null
                         ? <OAuthButton/>
-                        : <AvatarDropdown avatar={user}/>
+                        : <AvatarDropdown />
                 }
             </div>
         </div>

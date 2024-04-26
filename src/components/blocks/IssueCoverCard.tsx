@@ -57,7 +57,7 @@ export function IssueCoverCard({issue}: {issue: issueDataModelProps}) {
                         <div className={"text-lg font-semibold"}>{issueModel.title}</div>
                         <div className={"text-lg font-light"}>{issueModel.subtitle}</div>
                     </section>
-                    <LabelsWrapper labels={issueModel.data.labels}/>
+                    <LabelsWrapper labels={issueModel.data.labels ?? []}/>
                 </CardContent>
             </Link>
         </Card>

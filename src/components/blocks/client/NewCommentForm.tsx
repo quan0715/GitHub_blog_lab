@@ -1,42 +1,37 @@
 'use client'
-
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {GithubAvatar} from "@/components/blocks/GithubAvatar";
-import {MDXRemote} from "next-mdx-remote/rsc";
 import React from "react";
 import {GithubUserModelProps} from "@/models/IssueModel";
 import {OAuthButton} from "@/components/blocks/client/OauthButton";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
 import {Button} from "@/components/ui/button";
-import {serialize} from "next-mdx-remote/serialize";
-import {MarkdownDisplay} from "@/components/blocks/MarkdownDisplay";
-import {postNewComment} from "@/actions/githubComments";
-import {revalidatePath} from "next/cache";
-import {useRouter} from "next/navigation";
-import {toast} from "sonner";
-import {MarkdownEditForm} from "@/components/blocks/client/MarkdownEditForm";
-
+import {postNewComment} from "@/actions/githubComments"
+import {useRouter} from "next/navigation"
+import {toast} from "sonner"
+import {MarkdownEditForm} from "@/components/blocks/client/MarkdownEditForm"
+import {useContext} from "react"
+import {UserContext} from "@/Providers/UserProvider"
 type CommentDisplayCardProps = {
     issueId: number,
-    author: GithubUserModelProps | null,
+    // author: GithubUserModelProps | null,
 
 }
 
-export function NewCommentForm({issueId, author}: CommentDisplayCardProps) {
+export function NewCommentForm({issueId}: CommentDisplayCardProps) {
 
     const [body, setBody] = React.useState('')
     const route = useRouter()
+    const userContext = useContext(UserContext)
 
     const onInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setBody(e.target.value)
     }
 
     return (
-        author !== null
+        userContext.user !== null
             ? <Card className={"w-full"}>
                 <CardHeader>
-                    <GithubAvatar author={author}/>
+                    <GithubAvatar author={userContext.user}/>
                 </CardHeader>
                 <CardContent>
                     <MarkdownEditForm body={body} onInputChange={onInputChange}/>

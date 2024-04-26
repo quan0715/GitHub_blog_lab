@@ -21,33 +21,23 @@ export default async function PostPage({params}: { params: { issueNumber: string
 
     const issueModel = new IssueModel(issue)
 
-    let user: GithubUserModelProps| null = null
-
-    try{
-        user = await getGithubUser()
-        // console.log('user', user)
-    } catch (e) {
-        console.error(e)
-    }
     return (
         <div>
             {
-               user?.login !== undefined && user?.login === issueModel.data.user?.login
-                    ? <div className={"fixed grid grid-cols-1 gap-4 bottom-4 right-4 md:bottom-8 md:right-8 md:gap-2"}>
-                       <EditPostButton issueNumber={issueModel.data.number} creator={user} issueEntity={{
-                            title: issueModel.data.title,
-                            body: issueModel.metadata.body
-                          } as IssueEntity}/>
-                       <DeletePostButton issueId={issueModel.data.number}/>
-                   </div>
-                   : null
+                <div className={"fixed grid grid-cols-1 gap-4 bottom-4 right-4 md:bottom-8 md:right-8 md:gap-2"}>
+                    <EditPostButton issueNumber={issueModel.data.number} issueEntity={{
+                        title: issueModel.data.title,
+                        body: issueModel.metadata.body
+                    } as IssueEntity}/>
+                    <DeletePostButton issueId={issueModel.data.number}/>
+                </div>
             }
             <BlogPostHeader issueData={issue}></BlogPostHeader>
             <MarkdownDisplay source={issueModel.metadata.body}/>
             <div className={"w-full space-y-4 py-4"}>
             <div className={"text-lg font-semibold"}>留言區</div>
                 <div className={"text-sm"}> {comments.length > 0 ? "" : "此貼文還沒有留言，趕快登入後留言吧！！！"} </div>
-                <NewCommentForm author={user} issueId={issue.number}/>
+                <NewCommentForm issueId={issue.number}/>
                 {
                     sortedList.map((data) => {
                         return (

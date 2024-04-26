@@ -6,10 +6,9 @@ import React from "react";
 import {deleteIssue} from "@/actions/githubIssue";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import {useState} from "react";
+import {useState, useContext} from "react";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -22,7 +21,6 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -30,20 +28,21 @@ import {
 import {Loader2} from "lucide-react"
 import {PostEditForm} from "@/components/blocks/client/PostEditForm";
 import {GithubUserModelProps, IssueEntity} from "@/models/IssueModel";
-import {revalidatePath} from "next/cache";
-
+import {UserContext,} from "@/Providers/UserProvider";
 type EditPostButtonProps = {
     issueNumber?: number | null // if issueId is not null, then it is in edit mode
-    creator: GithubUserModelProps
+    // creator: GithubUserModelProps
     issueEntity?: IssueEntity | null // if issueEntity is not null, then it is in edit mode
 }
-export function EditPostButton({creator, issueNumber = null, issueEntity=null}: EditPostButtonProps) {
+export function EditPostButton({issueNumber = null, issueEntity=null}: EditPostButtonProps) {
+
+    const userContext = useContext(UserContext)
 
     const [isLoading, setLoadingState] = useState(false)
     const router = useRouter()
 
-    return (
-        <Button id={"edit-issue-button"} className={"w-14 h-14 rounded-2xl"} size={"icon"} asChild>
+    return userContext.user === null ? null : (
+        <Button className={"w-14 h-14 rounded-2xl"} size={"icon"} asChild>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button className={"w-14 h-14 rounded-xl"}>
@@ -70,7 +69,7 @@ export function EditPostButton({creator, issueNumber = null, issueEntity=null}: 
                                     : '輸入標題與內文，標題為必填，內文則限制 30 個字'
                             }
                         </DialogDescription>
-                        <PostEditForm author={creator} issueNumber={issueNumber} issueEntity={issueEntity}/>
+                        <PostEditForm author={userContext.user} issueNumber={issueNumber} issueEntity={issueEntity}/>
                     </DialogHeader>
                 </DialogContent>
             </Dialog>
@@ -83,6 +82,7 @@ export function EditPostButton({creator, issueNumber = null, issueEntity=null}: 
 export function DeletePostButton({issueId}: {issueId: number}){
     const [isLoading, setLoadingState] = useState(false)
     const router = useRouter()
+    const userContext = useContext(UserContext)
     const onDelete = async () => {
         setLoadingState(true)
         await deleteIssue({issueId: issueId})
@@ -92,7 +92,7 @@ export function DeletePostButton({issueId}: {issueId: number}){
         toast.success('刪除成功')
         router.push('/')
     }
-    return (
+    return ( userContext.user === null ? null :
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button className={"w-14 h-14 rounded-xl"} variant={"destructive"}>

@@ -16,15 +16,16 @@ export function OAuthButton() {
     const router = useRouter()
 
     return (
-        <Button
-                id={"oauth-button"}
-                color="primary"
-                onClick={
-            () => {
-                router.push(url)
+        <Button color="primary" onClick={
+            async ()  => {
+                await new Promise((resolve) => {
+                    router.push(url)
+                })
+                // router.push(url)
                 toast("登入成功", {
                     description: "開始留言或編輯你的貼文",
                 })
+                // router.back()
             }
         }>
             Github 登入

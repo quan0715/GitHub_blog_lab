@@ -1,18 +1,19 @@
 import React from 'react';
 import {CommentDataModelProps} from "@/models/CommentModel";
-
 import {
-    Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent
+    Card,
+    CardHeader,
+    CardDescription,
+    CardContent
 } from '@/components/ui/card'
 import {MDXRemote} from "next-mdx-remote/rsc";
-import rehypeHighlight from "rehype-highlight";
 import {GithubAvatar} from "@/components/blocks/GithubAvatar";
 
 type CommentDisplayCardProps = {
     commentData: CommentDataModelProps
 }
 
-export function CommentDisplayCard({commentData,}: CommentDisplayCardProps) {
+export function CommentDisplayCard({commentData}: CommentDisplayCardProps) {
     return (
         <Card className={"w-full"}>
             <CardHeader>
